@@ -1,43 +1,68 @@
-# 🏗️ Desafio Fullstack Integrado
-🚨 Instrução Importante (LEIA ANTES DE COMEÇAR)
-❌ NÃO faça fork deste repositório.
+### Desafio Fullstack Integrado - BIP
+Este repositório contém a minha solução completa para o Desafio Fullstack Integrado. A aplicação é um sistema de gestão de benefícios desenvolvido em camadas, com foco na correção de falhas transacionais e na experiência do usuário.
 
-Este repositório é fornecido como modelo/base. Para realizar o desafio, você deve:
-✅ Opção correta (obrigatória)
-  Clique em “Use this template” (se este repositório estiver marcado como Template)
-OU
-  Clone este repositório e crie um NOVO repositório público em sua conta GitHub.
-📌 O resultado deve ser um repositório próprio, independente deste.
+### Objetivo
+Corrigir falhas críticas de negócio no módulo EJB, implementar um backend robusto em Java e um frontend moderno em Angular, garantindo a integridade dos dados em operações de transferência.
 
-## 🎯 Objetivo
-Criar solução completa em camadas (DB, EJB, Backend, Frontend), corrigindo bug em EJB e entregando aplicação funcional.
+### Tecnologias Utilizadas
+## Backend:
 
-## 📦 Estrutura
-- db/: scripts schema e seed
-- ejb-module/: serviço EJB com bug a ser corrigido
-- backend-module/: backend Java 8+
-- frontend/: app Angular
-- docs/: instruções e critérios
-- .github/workflows/: CI
+Java 8+ (Java EE / Jakarta EE): Lógica de negócio e serviços.
 
-## ✅ Tarefas do candidato
-1. Executar db/schema.sql e db/seed.sql
-2. Corrigir bug no BeneficioEjbService
-3. Implementar backend CRUD + integração com EJB
-4. Desenvolver frontend Angular consumindo backend
-5. Implementar testes
-6. Documentar (Swagger, README)
-7. Enviar link para recrutadora com seu repositório para análise
+EJB (Enterprise JavaBeans): Gestão de transações e concorrência.
 
-## 🐞 Bug no EJB
-- Transferência não verifica saldo, não usa locking, pode gerar inconsistência
-- Espera-se correção com validações, rollback, locking/optimistic locking
+JAX-RS (REST): Exposição dos endpoints da API.
 
-## 📊 Critérios de avaliação
-- Arquitetura em camadas (20%)
-- Correção EJB (20%)
-- CRUD + Transferência (15%)
-- Qualidade de código (10%)
-- Testes (15%)
-- Documentação (10%)
-- Frontend (10%)
+Hibernate / JPA: Persistência e mapeamento de dados.
+
+WildFly: Servidor de aplicação utilizado.
+
+JUnit 5: Testes unitários para validação de regras de negócio.
+
+## Frontend:
+
+Angular 17+: Framework para a interface SPA.
+
+TypeScript: Desenvolvimento seguro e tipado.
+
+CSS Moderno: Design minimalista e responsivo.
+
+### Correção do Bug no EJB
+
+## O desafio apresentava um BeneficioEjbService com falhas graves de consistência. As seguintes melhorias foram implementadas:
+
+Pessimistic Locking: Adicionado LockModeType.PESSIMISTIC_WRITE nas consultas de transferência para evitar "Race Conditions" (condições de corrida), garantindo que duas
+transferências simultâneas não corrompam o saldo.
+
+Validação de Saldo: Implementada lógica que impede que o saldo de origem fique negativo, lançando exceções adequadas (IllegalStateException).
+
+Barreira contra Valores Inválidos: O sistema agora bloqueia transferências de valores nulos, zerados ou negativos.
+
+Tratamento de Exceções: Implementado um "desempacotador" de erros no Backend para que o frontend receba mensagens claras (ex: "Saldo insuficiente") em vez de logs técnicos do servidor.
+
+## Como Executar o Projeto
+
+## 1. Backend Java 8+ e Maven.
+
+Execute o comando para gerar o artefato:
+   ```
+   mvn clean package
+   ```
+Realize o deploy do .war gerado no seu servidor WildFly.
+
+## 2. Frontend (Angular)
+Navegue até a pasta frontend.
+Instale as dependências:
+```
+mvn clean package
+```
+Inicie a aplicação:
+   ```
+ng serve
+```
+
+### Testes Automatizados
+O projeto conta com testes unitários focados no serviço de transferência, garantindo que as validações de saldo e valores negativos nunca deixem de funcionar. Para rodar:
+```
+mvn test
+```
