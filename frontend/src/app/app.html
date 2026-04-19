@@ -1,0 +1,113 @@
+<div class="container" xmlns="http://www.w3.org/1999/html">
+  <header>
+    <h1>BIP - TESTE INTEGRADO</h1>
+
+    <div class="nav-buttons">
+      <button (click)="mudarTela('lista')" [class.active]="telaAtiva === 'lista'">LISTA</button>
+      <button (click)="mudarTela('transferir')" [class.active]="telaAtiva === 'transferir'">TRANSFERIR</button>
+      <button (click)="mudarTela('admin')" [class.active]="telaAtiva === 'admin'">CADASTRAR</button>
+    </div>
+  </header>
+
+  <hr>
+
+  <section *ngIf="telaAtiva === 'lista'" class="card animate-in">
+    <h2 style="margin-bottom: 30px;">BENEFÍCIOS DISPONÍVEIS</h2>
+
+    <div class="search-container">
+      <input type="number" [(ngModel)]="idBusca" class="input-search" placeholder="DIGITE O ID DO ATIVO">
+      <button (click)="fazerBusca()" class="btn-pesquisar">PESQUISAR</button>
+      <button (click)="limparBusca()" *ngIf="beneficioBuscado || mensagemBusca" class="btn-limpar">LIMPAR</button>
+    </div>
+
+    <div *ngIf="beneficioBuscado as b" class="result-card">
+      <p class="label">RESULTADO DA BUSCA:</p>
+      <h3 class="title">#{{ b.id }} - {{ b.nome }}</h3>
+      <p class="description">{{ b.descricao }}</p>
+      <p class="value">{{ b.valor | currency:'BRL' }}</p>
+      <td>
+        <button (click)="remover(b.id)" class="btn-delete">EXCLUIR</button>
+      </td>
+    </div>
+
+    <ng-container *ngIf="beneficios !== null; else carregando">
+      <div *ngIf="beneficios.length > 0; else vazio">
+        <table>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>DESCRIÇÃO</th>
+            <th>SALDO ATUAL</th>
+            <th>AÇÕES</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let b of beneficios">
+            <td>#{{ b.id }}</td>
+            <td>
+              <strong>{{ b.nome }}</strong><br>
+              <small>{{ b.descricao }}</small>
+            </td>
+            <td class="valor">{{ b.valor | currency:'BRL' }}</td>
+            <td>
+              <button (click)="remover(b.id)" class="btn-delete">EXCLUIR</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+
+    <ng-template #vazio>
+      <div style="width: 100%; padding: 40px; text-align: center; color: #555; border: 1px dashed #333; box-sizing: border-box;">
+        <p style="letter-spacing: 2px; font-size: 0.8rem; font-weight: 700;">NENHUM BENEFÍCIO ENCONTRADO NO SISTEMA 📡</p>
+      </div>
+    </ng-template>
+  </section>
+
+  <section *ngIf="telaAtiva === 'transferir'" class="card animate-in">
+    <h2>EFETUAR TRANSFERÊNCIA</h2>
+    <div class="form-group">
+      <div class="input-wrapper">
+        <label style="margin-right: 2%"><small>ID DE ORIGEM</small></label>
+        <input type="number" [(ngModel)]="idOrigem" placeholder="001">
+      </div>
+      <div class="input-wrapper">
+        <label style="margin-right: 2%"><small>ID DE DESTINO</small></label>
+        <input type="number" [(ngModel)]="idDestino" placeholder="002">
+      </div>
+      <div class="input-wrapper" style="grid-column: span 2;">
+        <label style="margin-right: 2%"><small>VALOR (R$)</small></label>
+        <input type="number" [(ngModel)]="valor" placeholder="0.00">
+      </div>
+      <button (click)="transferir()" [disabled]="!idOrigem || !idDestino || !valor">
+        CONFIRMAR TRANSAÇÃO
+      </button>
+    </div>
+  </section>
+
+  <section *ngIf="telaAtiva === 'admin'" class="card animate-in">
+    <h2>NOVO ATIVO</h2>
+    <div class="form-group">
+      <div class="input-wrapper" style="grid-column: span 2;">
+        <label style="margin-right: 2%"><small>NOME</small></label>
+        <input type="text" [(ngModel)]="novoNome" placeholder="EX: VALE REFEIÇÃO">
+      </div>
+      <div class="input-wrapper" style="grid-column: span 2;">
+        <label style="margin-right: 2%"><small>DESCRIÇÃO</small></label>
+        <input type="text" [(ngModel)]="novaDescricao" placeholder="DESCRIÇÃO CURTA">
+      </div>
+      <div class="input-wrapper" style="grid-column: span 2;">
+        <label style="margin-right: 2%"><small>SALDO INICIAL</small></label>
+        <input type="number" [(ngModel)]="valorInicial" placeholder="0.00">
+      </div>
+      <button (click)="salvarNovo()">CADASTRAR BENEFÍCIO</button>
+    </div>
+  </section>
+
+  <ng-template #carregando>
+    <div class="loader" style="padding: 40px; text-align: center; color: #fff;">
+      Buscando dados no servidor... ⏳
+    </div>
+  </ng-template>
+</div>

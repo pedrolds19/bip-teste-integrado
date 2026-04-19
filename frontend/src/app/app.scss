@@ -1,0 +1,157 @@
+
+$bg-color: #0a0a0a;
+$card-bg: #111111;
+$accent-color: #ffffff;
+$text-muted: #888888;
+$border-color: #222222;
+
+.container {
+  padding: 60px 20px;
+  background-color: $bg-color;
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: $accent-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 50px;
+
+  h1 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: 300;
+    color: $text-muted;
+    margin-bottom: 30px;
+  }
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 2px;
+  background: $border-color;
+  border: 1px solid $border-color;
+
+  button {
+    background: $bg-color;
+    color: $text-muted;
+    border: none;
+    padding: 15px 30px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background: $accent-color;
+      color: $bg-color;
+    }
+
+    &:hover:not(.active) {
+      color: $accent-color;
+    }
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 800px;
+  background: $card-bg;
+  border: 1px solid $border-color;
+  padding: 40px;
+  margin-top: 20px;
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    border-left: 3px solid $accent-color;
+    padding-left: 15px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    color: $text-muted;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px;
+    border-bottom: 1px solid $border-color;
+    text-align: left;
+  }
+
+  td {
+    padding: 20px 15px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .valor {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+  }
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  input {
+    background: transparent;
+    border: 1px solid $border-color;
+    padding: 15px;
+    color: white;
+    font-size: 0.8rem;
+    outline: none;
+
+    &:focus {
+      border-color: $accent-color;
+    }
+  }
+
+  button {
+    grid-column: span 2;
+    background: $accent-color;
+    color: black;
+    border: none;
+    padding: 18px;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:disabled {
+      background: #333;
+      color: #666;
+    }
+
+    .btn-delete {
+      background: transparent;
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      font-size: 0.6rem;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background: #ff4444;
+        color: white;
+      }
+    }
+
+  }
+}
