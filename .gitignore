@@ -1,13 +1,9 @@
-
 node_modules/
 dist/
-
 target/
 *.war
 *.ear
-
 .idea/
 *.iml
 .vscode/
-
 *.db
