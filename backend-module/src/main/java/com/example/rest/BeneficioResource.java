@@ -60,7 +60,7 @@ public class BeneficioResource {
       }
       return Response.status(Response.Status.BAD_REQUEST)
         .entity("{\"erro\": \"" + mensagemErro + "\"}")
-        .type(MediaType.APPLICATION_JSON) // <--- ESTA LINHA FALTAVA
+        .type(MediaType.APPLICATION_JSON) 
         .header("Access-Control-Allow-Origin", "*")
         .build();
     }
@@ -92,15 +92,15 @@ public class BeneficioResource {
       beneficioService.salvar(beneficio);
       return Response.status(Response.Status.CREATED)
         .entity(beneficio)
-        .header("Access-Control-Allow-Origin", "*") // OBRIGATÓRIO
+        .header("Access-Control-Allow-Origin", "*") 
         .header("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept")
         .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
         .build();
     } catch (Exception e) {
-      e.printStackTrace(); // Olhe o console do IntelliJ para ver se tem erro de SQL!
+      e.printStackTrace(); 
       return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .entity("Erro: " + e.getMessage())
-        .header("Access-Control-Allow-Origin", "*") // MESMO NO ERRO PRECISA DE CORS
+        .header("Access-Control-Allow-Origin", "*") 
         .build();
     }
   }
@@ -110,17 +110,14 @@ public class BeneficioResource {
   @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
   public Response remover(@PathParam("id") Long id) {
     try {
-      // 1. Manda o serviço apagar no banco
       beneficioService.remover(id);
 
-      // 2. Retorna SUCESSO (200 OK) em formato JSON válido e COM CORS!
       return Response.ok("{\"mensagem\": \"Ativo removido com sucesso\"}")
         .header("Access-Control-Allow-Origin", "*")
         .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         .build();
 
     } catch (Exception e) {
-      // 3. Se der erro no banco, avisa o Angular COM CORS
       e.printStackTrace();
       return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .entity("{\"erro\": \"" + e.getMessage() + "\"}")
@@ -134,11 +131,11 @@ public class BeneficioResource {
     Beneficio b = beneficioService.buscarPorId(id);
     if (b == null) {
       return Response.status(Response.Status.NOT_FOUND)
-        .header("Access-Control-Allow-Origin", "*") // ADICIONE ESTA LINHA
+        .header("Access-Control-Allow-Origin", "*")
         .build();
     }
     return Response.ok(b)
-      .header("Access-Control-Allow-Origin", "*") // ADICIONE ESTA LINHA
+      .header("Access-Control-Allow-Origin", "*")
       .build();
   }
 }
