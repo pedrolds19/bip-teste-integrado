@@ -18,11 +18,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class BeneficioEjbServiceTest {
 
-    // Cria um "banco de dados falso"
     @Mock
     private EntityManager em;
 
-    // Injeta esse banco falso dentro do seu serviço real
     @InjectMocks
     private BeneficioEjbService service;
 
