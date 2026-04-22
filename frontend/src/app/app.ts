@@ -44,7 +44,7 @@ export class App implements OnInit {
 
       if (this.valor <= 0) {
         alert('OPERAÇÃO CANCELADA:\n\nDigite um valor válido, maior que zero.');
-        return; // Interrompe a função aqui, nem gasta internet chamando o Java
+        return; 
       }
 
       if (this.idOrigem === this.idDestino) {
@@ -59,21 +59,18 @@ export class App implements OnInit {
           this.limparFormulario();
         },
         error: (err) => {
-          console.error('Log técnico do Erro:', err); // Ajuda a ver no F12
+          console.error('Log técnico do Erro:', err);
 
           let mensagem = 'Erro de comunicação com o servidor.';
 
           if (err.error) {
-            // Se chegou como Objeto JSON
             if (err.error.erro) {
               mensagem = err.error.erro;
             }
-            // Se chegou como Texto (String), a gente força a conversão
             else if (typeof err.error === 'string') {
               try {
                 mensagem = JSON.parse(err.error).erro;
               } catch (e) {
-                // Se não der pra converter, mostra a string pura
                 mensagem = err.error;
               }
             }
@@ -138,7 +135,6 @@ export class App implements OnInit {
   mensagemBusca: string = '';
 
   fazerBusca() {
-    // 1. Validação de campo vazio (o que você já tinha)
     if (!this.idBusca) {
       this.mensagemBusca = 'DIGITE UM ID PARA PESQUISAR.';
       this.beneficioBuscado = null;
@@ -149,7 +145,7 @@ export class App implements OnInit {
       next: (resultado) => {
         if (resultado) {
           this.beneficioBuscado = resultado;
-          this.mensagemBusca = ''; // Limpa erro se achar o cara
+          this.mensagemBusca = '';
           console.log('Ativo localizado com sucesso.');
         } else {
           this.beneficioBuscado = null;
@@ -161,7 +157,7 @@ export class App implements OnInit {
         if (err.status === 404) {
           this.mensagemBusca = `ID #${this.idBusca} NÃO CONSTA NA BASE DE DADOS.`;
         } else {
-          this.mensagemBusca = 'ERRO NA COMUNICAÇÃO COM O SERVIDOR. ⚠️';
+          this.mensagemBusca = 'ERRO NA COMUNICAÇÃO COM O SERVIDOR.';
         }
         alert("Um erro foi encontrado");
       }
